@@ -31,6 +31,7 @@ if (Ember.ResourceAdapter === undefined) {
     _resourceRequest: function(params) {
       params.url = this._resourceUrl();
       params.dataType = 'json';
+      params.contentType = 'application/json';
 
       if (this._prepareResourceRequest !== undefined) {
         this._prepareResourceRequest(params);
@@ -193,7 +194,7 @@ Ember.Resource = Ember.Object.extend(Ember.ResourceAdapter, Ember.Copyable, {
     }
 
     return this._resourceRequest({type: this.isNew() ? 'POST' : 'PUT',
-                                  data: this.serialize()})
+                                  data: JSON.stringify(this.serialize())})
       .done(function(json) {
         // Update properties
         if (json) self.deserialize(json);
